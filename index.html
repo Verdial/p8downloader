@@ -174,27 +174,34 @@
         .example strong {
             color: #856404;
         }
+
+        .detected-info {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #2e7d32;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎮 Lexaloffle P8.PNG Downloader</h1>
-        <p class="subtitle">Download file .p8.png dari Lexaloffle BBS</p>
+        <p class="subtitle">Paste link Lexaloffle dan download otomatis!</p>
 
         <div class="input-group">
-            <label for="postId">Post ID:</label>
-            <input type="text" id="postId" placeholder="Contoh: 12345">
-            <div class="url-preview" id="urlPreview">URL akan muncul di sini...</div>
+            <label for="urlInput">Paste Link Lexaloffle:</label>
+            <input type="text" id="urlInput" placeholder="https://www.lexaloffle.com/bbs/?pid=...">
+            <div class="detected-info" id="detectedInfo"></div>
         </div>
 
-        <div class="input-group">
-            <label for="filename">Nama File (tanpa ekstensi):</label>
-            <input type="text" id="filename" placeholder="Contoh: celeste">
-        </div>
+        <div class="url-preview" id="urlPreview">File URL akan muncul di sini...</div>
 
         <div class="button-group">
-            <button class="btn-download" id="btnDownload">⬇ Download</button>
-            <button class="btn-view" id="btnView">👁 View Source</button>
+            <button class="btn-download" id="btnDownload" disabled>⬇ Download</button>
+            <button class="btn-view" id="btnView" disabled>👁 View Source</button>
         </div>
 
         <div class="loading" id="loading">
@@ -205,10 +212,10 @@
         <div class="result" id="result"></div>
 
         <div class="example">
-            <strong>💡 Contoh:</strong><br>
-            Post ID: <code>12345</code><br>
-            Nama File: <code>celeste</code><br>
-            Hasil: <code>https://www.lexaloffle.com/bbs/cposts/12345/celeste.p8.png</code>
+            <strong>💡 Cara Pakai:</strong><br>
+            1. Copy link dari Lexaloffle BBS (contoh: https://www.lexaloffle.com/bbs/?pid=12345)<br>
+            2. Paste di kolom input di atas<br>
+            3. Klik Download atau View Source
         </div>
     </div>
 
