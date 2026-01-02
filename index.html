@@ -26,7 +26,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             padding: 40px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
         }
 
@@ -69,17 +69,6 @@
             border-color: #667eea;
         }
 
-        .url-preview {
-            background: #f5f5f5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #666;
-            word-break: break-all;
-            font-family: 'Courier New', monospace;
-        }
-
         .button-group {
             display: flex;
             gap: 10px;
@@ -97,29 +86,19 @@
             transition: all 0.3s;
         }
 
-        .btn-download {
+        .btn-fetch {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
-        .btn-download:hover {
+        .btn-fetch:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-view {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-view:hover {
-            background: #e0e0e0;
         }
 
         button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none !important;
         }
 
         .result {
@@ -139,6 +118,12 @@
             background: #f8d7da;
             border: 1px solid #f5c6cb;
             color: #721c24;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
         }
 
         .loading {
@@ -162,6 +147,56 @@
             100% { transform: rotate(360deg); }
         }
 
+        .files-found {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .file-item {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-name {
+            font-family: monospace;
+            font-size: 13px;
+            color: #333;
+            word-break: break-all;
+            flex: 1;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .btn-download-small {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-view-small {
+            background: #e0e0e0;
+            color: #333;
+        }
+
         .example {
             background: #fff9e6;
             padding: 12px;
@@ -175,50 +210,201 @@
             color: #856404;
         }
 
-        .detected-info {
-            background: #e8f5e9;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #2e7d32;
-            display: none;
+        .example code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎮 Lexaloffle P8.PNG Downloader</h1>
-        <p class="subtitle">Paste link Lexaloffle dan download otomatis!</p>
+        <p class="subtitle">Paste link halaman Lexaloffle BBS untuk extract file .p8.png</p>
 
         <div class="input-group">
-            <label for="urlInput">Paste Link Lexaloffle:</label>
-            <input type="text" id="urlInput" placeholder="https://www.lexaloffle.com/bbs/?pid=...">
-            <div class="detected-info" id="detectedInfo"></div>
+            <label for="urlInput">Paste URL Halaman BBS:</label>
+            <input type="text" id="urlInput" placeholder="https://www.lexaloffle.com/bbs/?pid=172855">
         </div>
 
-        <div class="url-preview" id="urlPreview">File URL akan muncul di sini...</div>
-
         <div class="button-group">
-            <button class="btn-download" id="btnDownload" disabled>⬇ Download</button>
-            <button class="btn-view" id="btnView" disabled>👁 View Source</button>
+            <button class="btn-fetch" id="btnFetch">🔍 Cari File .p8.png</button>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top: 10px; color: #666;">Memproses...</p>
+            <p style="margin-top: 10px; color: #666;">Mencari file .p8.png...</p>
         </div>
 
         <div class="result" id="result"></div>
 
+        <div class="files-found" id="filesFound">
+            <h3 style="color: #333; margin-bottom: 15px;">📦 File Ditemukan:</h3>
+            <div id="filesList"></div>
+        </div>
+
         <div class="example">
             <strong>💡 Cara Pakai:</strong><br>
-            1. Copy link dari Lexaloffle BBS (contoh: https://www.lexaloffle.com/bbs/?pid=12345)<br>
-            2. Paste di kolom input di atas<br>
-            3. Klik Download atau View Source
+            1. Buka halaman game di Lexaloffle BBS<br>
+            2. Copy URL dari address bar browser<br>
+            3. Paste di kolom di atas<br>
+            4. Klik "Cari File .p8.png"<br>
+            5. Download file yang ditemukan<br><br>
+            
+            <strong>Contoh URL yang didukung:</strong><br>
+            <code>https://www.lexaloffle.com/bbs/?pid=172855</code><br>
+            <code>https://www.lexaloffle.com/bbs/?tid=12345</code>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const btnFetch = document.getElementById('btnFetch');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const filesFound = document.getElementById('filesFound');
+        const filesList = document.getElementById('filesList');
+
+        function showResult(type, message) {
+            result.className = `result ${type}`;
+            result.textContent = message;
+            result.style.display = 'block';
+        }
+
+        function hideResult() {
+            result.style.display = 'none';
+        }
+
+        function extractPid(url) {
+            const match = url.match(/[?&](?:pid|tid)=(\d+)/);
+            return match ? match[1] : null;
+        }
+
+        async function fetchPageAndExtract() {
+            const url = urlInput.value.trim();
+            
+            if (!url) {
+                showResult('error', '❌ Mohon masukkan URL!');
+                return;
+            }
+
+            const pid = extractPid(url);
+            if (!pid) {
+                showResult('error', '❌ URL tidak valid. Pastikan mengandung ?pid= atau ?tid=');
+                return;
+            }
+
+            hideResult();
+            filesFound.style.display = 'none';
+            loading.style.display = 'block';
+            btnFetch.disabled = true;
+
+            try {
+                // Gunakan CORS proxy untuk bypass CORS
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+                
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error('Gagal mengambil halaman');
+                
+                const html = await response.text();
+                
+                // Extract semua URL .p8.png
+                const p8Regex = /https?:\/\/(?:www\.)?lexaloffle\.com\/bbs\/cposts\/\d+\/\d+\/[^"'\s]+\.p8\.png/gi;
+                const matches = html.match(p8Regex);
+                
+                if (!matches || matches.length === 0) {
+                    throw new Error('Tidak ada file .p8.png ditemukan');
+                }
+
+                // Remove duplicates
+                const uniqueFiles = [...new Set(matches)];
+                
+                displayFiles(uniqueFiles);
+                showResult('success', `✅ Ditemukan ${uniqueFiles.length} file .p8.png!`);
+                
+            } catch (error) {
+                showResult('error', `❌ Error: ${error.message}`);
+            } finally {
+                loading.style.display = 'none';
+                btnFetch.disabled = false;
+            }
+        }
+
+        function displayFiles(files) {
+            filesList.innerHTML = '';
+            filesFound.style.display = 'block';
+
+            files.forEach((fileUrl, index) => {
+                const filename = fileUrl.split('/').pop();
+                
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = filename;
+                
+                const fileActions = document.createElement('div');
+                fileActions.className = 'file-actions';
+                
+                const btnDownload = document.createElement('button');
+                btnDownload.className = 'btn-small btn-download-small';
+                btnDownload.textContent = '⬇ Download';
+                btnDownload.onclick = () => downloadFile(fileUrl, filename);
+                
+                const btnView = document.createElement('button');
+                btnView.className = 'btn-small btn-view-small';
+                btnView.textContent = '👁 View';
+                btnView.onclick = () => window.open(fileUrl, '_blank');
+                
+                fileActions.appendChild(btnDownload);
+                fileActions.appendChild(btnView);
+                
+                fileItem.appendChild(fileName);
+                fileItem.appendChild(fileActions);
+                
+                filesList.appendChild(fileItem);
+            });
+        }
+
+        async function downloadFile(url, filename) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Download gagal');
+                
+                const blob = await response.blob();
+                const downloadUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(downloadUrl);
+                
+                showResult('success', `✅ ${filename} berhasil didownload!`);
+            } catch (error) {
+                // Fallback: buka di tab baru
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                showResult('info', '✅ File dibuka di tab baru. Klik kanan → Save As untuk download.');
+            }
+        }
+
+        btnFetch.addEventListener('click', fetchPageAndExtract);
+        
+        urlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                fetchPageAndExtract();
+            }
+        });
+    </script>
 </body>
 </html>
